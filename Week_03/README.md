@@ -64,7 +64,7 @@ var divideAndConquer = function(problem, ...params) {
 
 ### 回溯
 
-* 分步是错
+* 分步试错
 
 * 优化时要注意剪枝
 
