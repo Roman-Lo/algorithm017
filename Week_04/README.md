@@ -114,6 +114,84 @@ var binarySearch = function(sortedArr, target) {
 
 ## 作业部分
 
+### 思考题
+
+#### Q. 使用二分查找，寻找一个半有序数组 [4, 5, 6, 7, 0, 1, 2] 中间无序的地方
+
+```javascript
+/**
+ * 思考：有序数组分两种序，升或降，因此需要先确认数组的升降序
+ * (这里有一个前提，就是数组内不存在相同元素)
+ * 我们可以通过前三个元素的大小比对可以确定这个半有序数组的排序类型：
+ * * 如果三个元素递增，则比对方式用Math.max
+ * * 如果三个元素递减，则比对方式用Math.min
+ * * 如果三个元素乱序，说明已经找到目标，这时候前三个元素对于升降序两种排列有四种无序的情况：
+ * 1. [Max, Min, Min+1] (升序)
+ * 2. [Max-1, Max, Min] (升序)
+ * 3. [Min+1, Min, Max] (降序)
+ * 4. [Min, Max, Max-1] (降序)
+ * 总结可得，无序的地方规律为：
+ * 1. [Max, Min] (升序)
+ * 2. [Min, Max] (降序)
+ * 因此通过二分查找，当通过分别比对中点与相邻点以及边界点的大小，可以确定：
+ * 如果[left, mid-1, mid]符合比对单调性，则对 mid+1 -> right 进行二分；
+ * 反之对 left -> mid-1 进行二分；
+ * 终止条件是：left,right重叠 或 [mid, mid+1] 不符合当前单调性
+ * @param {number[]} arr
+ */
+var findUnordered = function (arr) {
+  if (arr.length < 3) return []; // 不可能无序
+  let comparer = null;
+  if (arr[0] >= arr[1] && arr[1] >= arr[2]) { // 降序
+    comparer = Math.min;
+  } else if (arr[0] <= arr[1] && arr[1] <= arr[2]) { // 升序
+    comparer = Math.max;
+  } else { // 找到目标区间
+    let maxIdx = 0;
+    let minIdx = 0;
+    for (let i = 0; i < 3; i++) {
+      if (Math.max(arr[i], arr[maxIdx]) === arr[i]) {
+        maxIdx = i;
+      }
+      if (Math.min(arr[i], arr[minIdx]) === arr[i]) {
+        minIdx = i;
+      }
+    }
+    if (minIdx < maxIdx) { // 降序
+      return arr.slice(minIdx, maxIdx + 1);
+    } else { // 升序
+      return arr.slice(maxIdx, minIdx + 1);
+    }
+  }
+  // 确定单调性后进行二分搜索，
+  let left = 0, right = arr.length - 1;
+  while (left <= right) {
+    const mid = (left + right) >> 1; // 等价于 Math.floor((left + right) / 2);
+    if (comparer(arr[mid], arr[mid + 1]) === arr[mid]) {
+      // 找到目标
+      return arr.slice(mid, mid + 2);
+    }
+    if (comparer(arr[left], arr[mid]) === arr[mid] && comparer(arr[mid - 1], arr[mid]) === arr[mid]) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
+    }
+  }
+  return [];
+}
+
+// test cases
+console.log(1, findUnordered([1, 2, 3, 4, 7, 0])); // [7,0]
+console.log(2, findUnordered([0, 1, 2, 3, 4, 5])); // [] 有序，返回空
+console.log(3, findUnordered([9, 0, 1, 2, 3, 4])); // [9,0]
+console.log(4, findUnordered([8, 9, 1, 2, 3, 4])); // [9,1]
+console.log(5, findUnordered([8, 9, 10, 11, 3, 4])); // [11,3]
+console.log(6, findUnordered([9, 8, 7, 6, 5, 4, 3, 2, 1])); // [] 有序，返回空
+console.log(7, findUnordered([6, 5, 4, 3, 2, 1, 9, 8, 7])); // [1,9]
+```
+
+### 其它
+
 [assign-cookies.js](./assign-cookies.js)
 
 [best-time-to-buy-and-sell-stock-ii.js](./best-time-to-buy-and-sell-stock-ii.js)
