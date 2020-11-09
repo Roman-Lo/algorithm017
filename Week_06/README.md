@@ -22,8 +22,6 @@
 
 ## 练习
 
-[[221] 最大正方形](maximal-square.js)
-
 [[120] 三角形最小路径和](triangle.js)
 
 [[62] 不同路径](unique-paths.js)
@@ -37,3 +35,5 @@
 [[64] 最小路径和](minimum-path-sum.js)
 
 [[91] 解码方法](decode-ways.js)
+
+[[221] 最大正方形](maximal-square.js)
