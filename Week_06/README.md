@@ -28,6 +28,10 @@
 
 [[62] 不同路径](unique-paths.js)
 
+[[63] 不同路径 II](unique-paths-ii.js)
+
+[[1143] 最长公共子序列](longest-common-subsequence.js)
+
 ## 习题部分
 
 [[64] 最小路径和](minimum-path-sum.js)
