@@ -33,4 +33,12 @@ var prefixTable = function(pattern) {
 
 [[91] 解码方法](decode-ways.js)
 
+### 问答题 
 
+Q. 在学习总结中，写出不同路径 2 这道题目的状态转移方程。
+
+解答：
+
+```js
+f(x, y) = obstacleGrid[y][x] === 1 ? 0 : f(x - 1, y) + f(x, y - 1);
+```
