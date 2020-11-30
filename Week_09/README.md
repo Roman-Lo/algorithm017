@@ -14,14 +14,14 @@
 
 * 当对应字符不匹配时，通过前缀表来定位接下来pattern与text的对齐位置
 
-```js
+``` js
 var prefixTable = function(pattern) {
-  if (pattern.length === 1) return [-1];
-  const dp = [-1, 0];
-  for (let i = 1; i < pattern.length - 1; i++) {
-    dp[i + 1] = pattern[dp[i]] === pattern[i] ? dp[i] + 1 : 0;
-  }
-  return dp;
+    if (pattern.length === 1) return [-1];
+    const dp = [-1, 0];
+    for (let i = 1; i < pattern.length - 1; i++) {
+        dp[i + 1] = pattern[dp[i]] === pattern[i] ? dp[i] + 1 : 0;
+    }
+    return dp;
 }
 ```
 
@@ -30,5 +30,7 @@ var prefixTable = function(pattern) {
 代码: [KMP](./kmp.js)
 
 ## 习题部分
+
+[[91] 解码方法](decode-ways.js)
 
 
